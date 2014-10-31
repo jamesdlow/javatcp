@@ -1,0 +1,44 @@
+<project default="compile" name="TCP">
+	<property name="src.dir" location="src"/>
+	<property name="dest.dir" location="${src.dir}/classes"/>
+	<property name="build.dir" location="${src.dir}/jtheory"/>
+	
+	<path id="the.classpath">
+		<!--<fileset dir="${dest.dir}">
+			<include name="**/*.class"/>
+        </fileset>-->
+		<fileset dir=".">
+			<include name="**/*.java"/>
+        </fileset>
+	</path>
+	
+	<path id="run.classpath">
+		<fileset dir="${dest.dir}">
+			<include name="**/*.class"/>
+        </fileset>
+	</path>
+	
+	<path id="build.classpath">
+		<fileset dir="${build.dir}">
+			<include name="**/*.jar"/>
+        </fileset>
+	</path>
+	
+	<target name="makeclean">
+		<delete dir="${dest.dir}"/>
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="compile" description="">
+		<mkdir dir="${dest.dir}"/>
+		<javac srcDir="${src.dir}" destDir="${dest.dir}" classpathref="the.classpath"/>
+	</target>
+	
+	<target name="runserver" depends="compile">
+		<java classname="Server" failonerror="true" fork="true" classpathref="run.classpath"/>
+	</target>
+	
+	<target name="runclient" depends="compile">
+		<java classname="Client" failonerror="true" fork="true" classpathref="run.classpath"/>
+	</target>
+</project>
